@@ -1,0 +1,30 @@
+.cont{
+    background-color:yellow;
+    display: flex;
+    flex-direction: row;
+    max-height: 10%;
+}
+.ola{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.cartDiv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 100%;
+
+}
+li{
+    list-style: none;
+}
+a{
+    text-decoration:none;
+}
+.imgLogo{
+    width: 20%;
+}
