@@ -1,7 +1,8 @@
 import "./CartWidget.css"
+import {BsFillCartFill} from "react-icons/bs"
 
- export const Cartwidget = () => {
+ export const CartWidget = () => {
     return <div className="Cart">
-                <span><img className="imgcart" src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" alt="cart" />0</span>
+                <BsFillCartFill size={50}/>
     </div>
 }
