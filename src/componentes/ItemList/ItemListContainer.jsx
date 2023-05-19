@@ -1,31 +1,63 @@
-import { products } from "../../productsMock"
-import ItemList from "./ItemList"
-import {useState, useEffect} from "react"
-import { useParams } from "react-router-dom"
+
+import { useState, useEffect } from "react";
+import ItemList from "./ItemList";
+import { products } from "../../ProductsMock";
+import { database } from "../../firebaseconfig";
+ import {getDocs,collection, query, where } from 'firebase/firestore'
+
+import { useParams } from "react-router-dom";
+
+const ItemListContainer = () => {
+
+  const [ items , setItems ] = useState([])
+
+  const { categoryName } = useParams()
+  
+  
+
+  useEffect( ()=>{
+
+    let consulta ;
+      const itemsCollection = collection( database , 'productos')
+
+    if (categoryName){
+       const q = query(itemsCollection, where('category',"==", categoryName))
+      consulta = q
+    } else {
+    
+    
+      consulta= itemsCollection;
+    }
+    
+    
+   
+
+     getDocs(consulta)
+     .then((res)=>{
+      const products = res.docs.map(product =>{
+        return {
+          ...product.data(), id:product.id
+        }
+      })
+        setItems(products)
+     })
+     .catch((err)=> console.log(err))
 
 
-export const ItemListContainer = () => {
+      
+  },[categoryName])
 
-    const [ items, setItems]= useState([])
 
-    const {name} = useParams()
-    console.log(name)
-
-        useEffect(()=>{
-
-            const productsFiltered = products.filter(prod => prod.category === name)
-
-            const task = new Promise ((resolve, reject)=>{
-                resolve( name ? productsFiltered : products)
-            });
-            task
-                .then((res)=> setItems(res))
-                .catch((error) => console.log(error))
-        }, [name])
-
-            
-    return <div>
-        <ItemList items = {items} />
+  return (
+    <div>
+      {
+        items.length === 0 && <div>
+            <h1>cargan2</h1>
+        </div>
+      }
+      <ItemList items={items} />
     </div>
-}
+  );
+};
 
+export default ItemListContainer;
